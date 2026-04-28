@@ -1,0 +1,22 @@
+name: NBA Live Score Tracker
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Requests
+        run: pip install requests
+      - name: Run Script
+        env:
+          # This line unlocks the vault and hands the ID to your Python script
+          GROUPME_BOT_ID: ${{ secrets.GROUPME_BOT_ID }}
+        run: python bot.py
